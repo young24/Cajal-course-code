@@ -61,8 +61,10 @@ class StreamingOutput(object):
 
 class StreamingHandler(server.BaseHTTPRequestHandler):
     
+
     def do_GET(self):
         self.frame_i = 0
+        self.bg = np.zeros((5, 480, 640), dtype=np.uint8)
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
@@ -96,15 +98,21 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ###############
                         ## HERE CAN GO ALL IMAGE PROCESSING
                         ###############
-                    
+
+                        ## update the background
+                        idxBg = self.frame_i % 5
+
+                        self.bg[idxBg] = frame
+                        bgImg = np.mean(self.bg, 3)
+
                         frame, rects = myFaceDetection(frame)
+                        frame = frame - bgImg
+
                         self.frame_i = self.frame_i + 1
-                        ### crop the face
-                        for (x, y, w, h) in rects:
-                            crop_img = frame[y:y+h, x:x+w]
-                            fileName = "facePics/img" + str(self.frame_i) + ".jpg"
-                            cv2.imwrite(fileName, crop_img)
                         
+                        
+
+
                         ### and now we convert it back to JPEG to stream it
                         _, frame = cv2.imencode('.JPEG', frame) 
                         
