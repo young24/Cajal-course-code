@@ -106,7 +106,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         bgImg = np.mean(self.bg, 0)
 
                         frame, rects = myFaceDetection(frame)
-                        frame = frame - bgImg
+                        #frame = frame - bgImg
 
                         self.frame_i = self.frame_i + 1
                         
