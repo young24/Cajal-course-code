@@ -1,4 +1,7 @@
 
+## Create a new sketch
+arduino-cli sketch new MyFirstSketch
+
 
 ## To find the cores to install
 arduino-cli core search nano // "nano" is your board
