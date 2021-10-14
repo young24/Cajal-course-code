@@ -121,6 +121,17 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         Cx = np.mean(frame, 1)
                         Cy = np.mean(frame, 0)
                         
+                        
+                        # Find indices where we have mass
+                        mass_x, mass_y = np.where(frame)
+                        # mass_x and mass_y are the list of x indices and y indices of mass pixels
+
+                        Cx = np.average(mass_x)
+                        Cy = np.average(mass_y)
+                        
+                   
+                        
+                        ## draw a point at the mass center
                         frame = cv2.circle(frame, (Cx, Cy), radius = 5, color = (0, 0, 255), thickness = -1) # negative number for filled circle
 
 
