@@ -59,10 +59,10 @@ class StreamingOutput(object):
             self.buffer.seek(0)
         return self.buffer.write(buf)
 
-class StreamingHandler(self, server.BaseHTTPRequestHandler):
-    self.frame_i = 0
+class StreamingHandler(server.BaseHTTPRequestHandler):
     
-    def do_GET(self, frame_i):
+    def do_GET(self):
+        self.frame_i = 0
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
@@ -127,7 +127,6 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     daemon_threads = True
 
 # Open the camera and stream a low-res image (width 640, height 480 px)
-idxFrame = 0
 with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
     camera.vflip = True # Flips image vertically, depends on your camera mounting
     output = StreamingOutput() 
