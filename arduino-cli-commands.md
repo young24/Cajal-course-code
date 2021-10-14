@@ -11,5 +11,6 @@ arduino-cli compile -b arduino:avr:nano [SKETCH] // -b is "--fqbq" in the old sy
 
 ## upload a sketch to the board
 /// the port is "/dev/ttyUSB0"
+
 arduino-cli upload blink/blink.ino -p /dev/ttyUSB0 -b arduino:avr:nano
 
