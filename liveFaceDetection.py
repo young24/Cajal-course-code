@@ -100,7 +100,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         frame, rects = myFaceDetection(frame)
                         self.frame_i = self.frame_i + 1
                         ### crop the face
-                        for (x, y, w, h) in reacts:
+                        for (x, y, w, h) in rects:
                             crop_img = frame[y:y+h, x:x+w]
                             fileName = "facePics/img%d\n" % frame_i
                             cv2.imwrite(fileName, crop_img)
