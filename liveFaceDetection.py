@@ -32,12 +32,12 @@ def myFaceDetection(img):
     minSize=(200, 200), # adjust to your image size, maybe smaller, maybe larger?
     flags=cv2.CASCADE_SCALE_IMAGE)
     for (x, y, w, h) in rects:
-    # x: x location
-    # y: y location
-    # w: width of the rectangle 
-    # h: height of the rectangle
-    # Remember, order in images: [y, x, channel]
-    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 20)
+        # x: x location
+        # y: y location
+        # w: width of the rectangle 
+        # h: height of the rectangle
+        # Remember, order in images: [y, x, channel]
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 20)
 
 
     return img
