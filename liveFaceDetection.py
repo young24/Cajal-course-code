@@ -40,7 +40,7 @@ def myFaceDetection(img):
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 20)
 
 
-    return img
+    return img, rects
 
 class StreamingOutput(object):
     def __init__(self):
@@ -97,8 +97,14 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ## HERE CAN GO ALL IMAGE PROCESSING
                         ###############
                     
-                        frame = myFaceDetection(frame)
-                        
+                        frame, rects = myFaceDetection(frame)
+                        frame_i = frame_i + 1
+
+                        ### crop the face
+                        for (x, y, w, h) in reacts:
+                            crop_img = frame[y:y+h, x:x+w]
+                            fileName = "facePics/img%d\n" % frame_i
+                            cv2.imwrite(fileName, crop_img)
                         
                         ### and now we convert it back to JPEG to stream it
                         _, frame = cv2.imencode('.JPEG', frame) 
