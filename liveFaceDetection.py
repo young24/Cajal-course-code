@@ -102,7 +102,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ### crop the face
                         for (x, y, w, h) in rects:
                             crop_img = frame[y:y+h, x:x+w]
-                            fileName = "facePics/img%d\n" % self.frame_i
+                            fileName = "facePics/img%d" % self.frame_i
                             cv2.imwrite(fileName, crop_img)
                         
                         ### and now we convert it back to JPEG to stream it
