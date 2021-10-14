@@ -59,10 +59,10 @@ class StreamingOutput(object):
             self.buffer.seek(0)
         return self.buffer.write(buf)
 
-class StreamingHandler(server.BaseHTTPRequestHandler):
-    self.frame_i = 0
+class StreamingHandler(server.BaseHTTPRequestHandler, frame_i):
+    ##frame_i = 0
     
-    def do_GET(self):
+    def do_GET(self, frame_i):
         if self.path == '/':
             self.send_response(301)
             self.send_header('Location', '/index.html')
@@ -98,7 +98,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ###############
                     
                         frame, rects = myFaceDetection(frame)
-                        frame_i = frame_i + 1
 
                         ### crop the face
                         for (x, y, w, h) in reacts:
@@ -128,13 +127,15 @@ class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     daemon_threads = True
 
 # Open the camera and stream a low-res image (width 640, height 480 px)
+idxFrame = 0
 with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
     camera.vflip = True # Flips image vertically, depends on your camera mounting
     output = StreamingOutput() 
     camera.start_recording(output, format='mjpeg')
     try:
         address = ('', 8000) # port 8000
-        server = StreamingServer(address, StreamingHandler)
+        idxFrame = idxFrame + 1;
+        server = StreamingServer(address, StreamingHandler(idxFrame))
         server.serve_forever()
     finally:
         camera.stop_recording()
