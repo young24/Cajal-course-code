@@ -110,7 +110,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         idxBg = self.frame_i % 5
                         self.bg[idxBg] = frame
                         bgImg = np.mean(self.bg, 0)
-                        #frame = frame - bgImg
+                        frame = frame - bgImg
 
                         self.frame_i = self.frame_i + 1
                         for (x, y, w, h) in rects:
