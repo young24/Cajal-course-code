@@ -59,8 +59,8 @@ class StreamingOutput(object):
             self.buffer.seek(0)
         return self.buffer.write(buf)
 
-class StreamingHandler(server.BaseHTTPRequestHandler, frame_i):
-    ##frame_i = 0
+class StreamingHandler(self, server.BaseHTTPRequestHandler):
+    self.frame_i = 0
     
     def do_GET(self, frame_i):
         if self.path == '/':
@@ -98,7 +98,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler, frame_i):
                         ###############
                     
                         frame, rects = myFaceDetection(frame)
-
+                        self.frame_i = self.frame_i + 1
                         ### crop the face
                         for (x, y, w, h) in reacts:
                             crop_img = frame[y:y+h, x:x+w]
@@ -134,8 +134,7 @@ with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
     camera.start_recording(output, format='mjpeg')
     try:
         address = ('', 8000) # port 8000
-        idxFrame = idxFrame + 1
-        server = StreamingServer(address, StreamingHandler(idxFrame))
+        server = StreamingServer(address, StreamingHandler)
         server.serve_forever()
     finally:
         camera.stop_recording()
