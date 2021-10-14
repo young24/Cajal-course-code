@@ -113,7 +113,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         #frame = frame - bgImg
 
                         self.frame_i = self.frame_i + 1
-                        
+                        for (x, y, w, h) in rects:
+                            cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 20)
                         
 
 
