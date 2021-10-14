@@ -107,7 +107,6 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         frame, rects = myFaceDetection(frame)
                         
                         ## update the background
-                        print(frame.shape)
                         idxBg = self.frame_i % 5
                         self.bg[idxBg] = frame
                         bgImg = np.mean(self.bg, 0)
