@@ -32,17 +32,17 @@ def myFaceDetection(img):
     minSize=(200, 200), # adjust to your image size, maybe smaller, maybe larger?
     flags=cv2.CASCADE_SCALE_IMAGE)
     for (x, y, w, h) in rects:
-        # x: x location
-        # y: y location
-        # w: width of the rectangle 
-        # h: height of the rectangle
-        # Remember, order in images: [y, x, channel]
-        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 20)
+    # x: x location
+    # y: y location
+    # w: width of the rectangle 
+    # h: height of the rectangle
+    # Remember, order in images: [y, x, channel]
+    cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 20)
 
 
     return img
 
-class StreamingOutput(object):
+class StreamingOutput(object, image):
     def __init__(self):
         self.frame = None
         self.buffer = io.BytesIO()
@@ -55,7 +55,6 @@ class StreamingOutput(object):
             self.buffer.truncate()
             with self.condition:
                 self.frame = self.buffer.getvalue()
-                self.frame = myFaceDetection(self.frame)
                 self.condition.notify_all()
             self.buffer.seek(0)
         return self.buffer.write(buf)
@@ -97,7 +96,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ###############
                         ## HERE CAN GO ALL IMAGE PROCESSING
                         ###############
-                        
+                    
+                        image = myFaceDetection(image)
                         
                         
                         ### and now we convert it back to JPEG to stream it
