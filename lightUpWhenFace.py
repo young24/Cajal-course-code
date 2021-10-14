@@ -119,17 +119,19 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         self.frame_i = self.frame_i + 1
                         ### crop the face
                         for (x, y, w, h) in rects:
-                            # Send a character
-                            ser.write(b'x')
-                            time.sleep(0.05)
+                            for i in range(5):
+                            
+                                # Send a character
+                                ser.write(b'x')
+                                time.sleep(0.05)
 
-                            # Send a character
-                            ser.write(b'o')
-                            time.sleep(1.00)
+                                # Send a character
+                                ser.write(b'o')
+                                time.sleep(1.00)
 
-                            # Send a character
-                            ser.write(b'x')
-                            time.sleep(0.05)
+                                # Send a character
+                                ser.write(b'x')
+                                time.sleep(0.05)
                         
                         ### and now we convert it back to JPEG to stream it
                         _, frame = cv2.imencode('.JPEG', frame) 
