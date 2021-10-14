@@ -130,7 +130,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                    
           
                         ## draw a point at the mass center
-                        frame = cv2.circle(frame, (Cx, Cy), radius = 5, color = (0, 0, 255), thickness = -1) # negative number for filled circle
+                        frame = cv2.circle(frame, (Cx, Cy), radius = 15, color = (0, 0, 255), thickness = 7) # negative number for filled circle
 
 
                         ### and now we convert it back to JPEG to stream it
