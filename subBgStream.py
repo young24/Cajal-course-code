@@ -116,6 +116,8 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         for (x, y, w, h) in rects:
                             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 20)
                         
+                        ## thresholding
+                        ret, frame = cv2.threshold(frame, 80, 255, cv2.THRESH_BINARY)
 
 
                         ### and now we convert it back to JPEG to stream it
