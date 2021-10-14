@@ -97,7 +97,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ## HERE CAN GO ALL IMAGE PROCESSING
                         ###############
                     
-                        image = myFaceDetection(image)
+                        frame = myFaceDetection(frame)
                         
                         
                         ### and now we convert it back to JPEG to stream it
