@@ -42,7 +42,7 @@ def myFaceDetection(img):
 
     return img
 
-class StreamingOutput(object, image):
+class StreamingOutput(object):
     def __init__(self):
         self.frame = None
         self.buffer = io.BytesIO()
