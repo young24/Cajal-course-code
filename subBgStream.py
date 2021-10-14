@@ -118,6 +118,10 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         
                         ## thresholding
                         ret, frame = cv2.threshold(frame, 80, 255, cv2.THRESH_BINARY)
+                        Cx = mean(frame, 1)
+                        Cy = mean(frame, 0)
+                        
+                        frame = cv2.circle(frame, (Cx, Cy), radius = 5, color = (0, 0, 255), thickness = -1) # negative number for filled circle
 
 
                         ### and now we convert it back to JPEG to stream it
