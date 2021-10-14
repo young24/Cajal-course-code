@@ -40,7 +40,7 @@ def myFaceDetection(img):
         cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 20)
 
 
-    return img, rects
+    return gray, rects
 
 class StreamingOutput(object):
     def __init__(self):
@@ -109,7 +109,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ## update the background
                         print(frame.shape)
                         idxBg = self.frame_i % 5
-                        self.bg[idxBg] = np.mean(frame,2)
+                        self.bg[idxBg] = frame
                         bgImg = np.mean(self.bg, 0)
                         #frame = frame - bgImg
 
