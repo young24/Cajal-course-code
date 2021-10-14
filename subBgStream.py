@@ -109,7 +109,7 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ## update the background
                         print(frame.shape)
                         idxBg = self.frame_i % 5
-                        self.bg[idxBg] = frame
+                        self.bg[idxBg] = np.mean(frame,2)
                         bgImg = np.mean(self.bg, 0)
                         #frame = frame - bgImg
 
