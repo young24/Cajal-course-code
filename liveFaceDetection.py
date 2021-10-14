@@ -29,7 +29,7 @@ def myFaceDetection(img):
     rects = det.detectMultiScale(gray, 
     scaleFactor=1.1, 
     minNeighbors=5, 
-    minSize=(200, 200), # adjust to your image size, maybe smaller, maybe larger?
+    minSize=(80, 80), # adjust to your image size, maybe smaller, maybe larger?
     flags=cv2.CASCADE_SCALE_IMAGE)
     for (x, y, w, h) in rects:
         # x: x location
