@@ -99,13 +99,17 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ## HERE CAN GO ALL IMAGE PROCESSING
                         ###############
 
+                       
+                        
+
+                        
+                        ## face detection
+                        frame, rects = myFaceDetection(frame)
+                        
                         ## update the background
                         idxBg = self.frame_i % 5
-
                         self.bg[idxBg] = frame
                         bgImg = np.mean(self.bg, 0)
-
-                        frame, rects = myFaceDetection(frame)
                         #frame = frame - bgImg
 
                         self.frame_i = self.frame_i + 1
