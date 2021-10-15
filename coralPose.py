@@ -11,7 +11,7 @@ img = cv2.imread('test.jpg')
 # This is where you specify the Deep Neural Network.
 # Please put it in the same folder as the python file.
 # --> this can go at the very beginning after import cv2 in the streaming file
-interpreter = make_interpreter('movenet_single_pose_lightning_ptq_edgetpu.tflite')
+interpreter = make_interpreter('movenet.tflite')
 interpreter.allocate_tensors()
 ## Until here
 
