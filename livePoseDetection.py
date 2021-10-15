@@ -11,6 +11,9 @@ from http import server
 import numpy as np
 import cv2
 
+from pycoral.adapters import common
+from pycoral.utils.edgetpu import make_interpreter
+
 PAGE="""\
 <html>
 <head>
@@ -21,6 +24,43 @@ PAGE="""\
 </body>
 </html>
 """
+
+# This is where you specify the Deep Neural Network.
+# Please put it in the same folder as the python file.
+# --> this can go at the very beginning after import cv2 in the streaming file
+interpreter = make_interpreter('movenet.tflite')
+interpreter.allocate_tensors()
+
+
+def myPoseDetection(img):
+
+    # Convert to RGB, not needed for streaming
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    #### --> needs to happen for each image ####
+    # This resizes the RGB image
+    resized_img = cv2.resize(img_rgb, common.input_size(interpreter))
+    # Send resized image to Coral
+    common.set_input(interpreter, resized_img)
+
+    # Do the job
+    interpreter.invoke()
+
+    # Get the pose
+    pose = common.output_tensor(interpreter, 0).copy().reshape(_NUM_KEYPOINTS, 3)
+
+    height, width, ch = img.shape
+
+    # Draw the pose onto the image using blue dots
+    for i in range(0, _NUM_KEYPOINTS):
+        cv2.circle(img,
+                [int(pose[i][1] * width), int(pose[i][0] * height)],
+                5, # radius
+                (255, 0, 0), # color in RGB
+                -1) # fill the circle
+
+    return img
+
 
 def myFaceDetection(img):
     
@@ -97,13 +137,9 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
                         ## HERE CAN GO ALL IMAGE PROCESSING
                         ###############
                     
-                        frame, rects = myFaceDetection(frame)
+                        #frame, rects = myFaceDetection(frame)
                         self.frame_i = self.frame_i + 1
-                        ### crop the face
-                        for (x, y, w, h) in rects:
-                            crop_img = frame[y:y+h, x:x+w]
-                            fileName = "facePics/img" + str(self.frame_i) + ".jpg"
-                            cv2.imwrite(fileName, crop_img)
+                        frame = myPoseDetection(frame)
                         
                         ### and now we convert it back to JPEG to stream it
                         _, frame = cv2.imencode('.JPEG', frame) 
@@ -125,6 +161,12 @@ class StreamingHandler(server.BaseHTTPRequestHandler):
 class StreamingServer(socketserver.ThreadingMixIn, server.HTTPServer):
     allow_reuse_address = True
     daemon_threads = True
+
+
+
+
+
+
 
 # Open the camera and stream a low-res image (width 640, height 480 px)
 with picamera.PiCamera(resolution='640x480', framerate=24) as camera:
