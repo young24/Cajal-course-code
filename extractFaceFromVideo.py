@@ -5,8 +5,12 @@ import cv2
 # Load test image
 # im = cv2.imread("test.jpg")
 
+## Mount to google drive
+from google.colab import drive
+drive.mount('/content/drive')
 
-det = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
+
+det = cv2.CascadeClassifier("drive/MyDrive/Colab Notebooks/haarcascade_frontalface_default.xml")
 
 vName = "drive/MyDrive/video1.mp4"
 cap = cv2.VideoCapture(vName)
@@ -41,5 +45,5 @@ while(cap.isOpened()):
             # cv2.rectangle(im, (x, y), (x + w, y + h), (0, 255, 0), 20)
             crop_img = frame[y:y+h, x:x+w]
             fileName = "JF-faces/img" + str(idx) + ".jpg"
-            crop_img = cv2.resize(crop_img, (256, 256))
+            crop_img = cv2.resize(crop_img, (128, 128))
             cv2.imwrite(fileName, crop_img)
