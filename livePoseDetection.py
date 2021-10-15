@@ -14,6 +14,8 @@ import cv2
 from pycoral.adapters import common
 from pycoral.utils.edgetpu import make_interpreter
 
+_NUM_KEYPOINTS = 17
+
 PAGE="""\
 <html>
 <head>
